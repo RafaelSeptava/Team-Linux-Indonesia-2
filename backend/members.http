@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:3000
+
+### Create a member (201)
+# @name createMember
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{
+  "nama": "Member REST Client",
+  "gender": "Pria",
+  "basis": "Arch",
+  "distro": "Arch Linux",
+  "pengalaman": "1 - 3 tahun",
+  "keterampilan": "Scripting, SoftDev"
+}
+
+### List members (200)
+GET {{baseUrl}}/members
+
+### Find the created member (200)
+GET {{baseUrl}}/members/{{createMember.response.body.$.id}}
+
+### Update the created member (200)
+PATCH {{baseUrl}}/members/{{createMember.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "distro": "Fedora Linux"
+}
+
+### Reject an empty update (400)
+PATCH {{baseUrl}}/members/{{createMember.response.body.$.id}}
+Content-Type: application/json
+
+{}
+
+### Delete the created member (200)
+DELETE {{baseUrl}}/members/{{createMember.response.body.$.id}}
+
+### Confirm deleted member is not found (404)
+GET {{baseUrl}}/members/{{createMember.response.body.$.id}}
